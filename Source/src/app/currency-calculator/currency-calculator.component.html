@@ -1,0 +1,53 @@
+<div class="container">
+<h2 >Convert you currency</h2>
+<form class="col-md-6 col-sm-8 currency-form">
+    <div class="form-group row">
+    <label class="col-sm-2 col-form-label">From</label>
+        <div class="col-sm-10">
+            <mat-form-field appearance="fill">
+                <mat-label>Select the currency to convert from</mat-label>
+                <mat-select [formControl]="form.controls.convertFrom" required>
+                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                    {{currency.code}}
+                </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls.convertFrom.hasError('required')">Please choose an currency</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Ammount</label>
+        <div class="col-sm-10">
+            <mat-form-field class="example-full-width">
+                <mat-label>How many you would like to convert?</mat-label>
+                <input matInput type="number" [formControl]="form.controls.ammount" required>
+                <mat-error *ngIf="form.controls.ammount.hasError('required')">Please enter ammount</mat-error>
+              </mat-form-field>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">To</label>
+        <div class="col-sm-10">
+            <mat-form-field appearance="fill" >
+                <mat-label>Select currencies to convert to</mat-label>
+                <mat-select [formControl]="form.controls.convertTo" (selectionChange)="changeSelectedCurrencies($event)" required multiple>
+                  <mat-option *ngFor="let currency of currencyList" [value]="currency">{{currency.code}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls.convertTo.hasError('required')">Please choose an currency</mat-error>
+              </mat-form-field>
+             
+        </div>
+    </div>
+    <hr *ngIf="converToList.length>0">
+   <div *ngFor="let currency of converToList" class="form-group row result-row">
+        <label class="col-sm-2 col-form-label">{{currency.code}}</label>
+        <div class="col-sm-10">
+            <mat-form-field class="example-full-width">
+                <mat-label></mat-label>
+                <input matInput type="text"  value="{{convertTo(currency)}}" readonly>
+              </mat-form-field>
+            <i (click)="removeFromSelectedCurrencies(currency)" class="icon-close"></i>
+        </div>
+   </div>
+</form>
+</div>
